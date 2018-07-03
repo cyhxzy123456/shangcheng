@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>aixos</title>
+</head>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script src="../node_modules/axios/dist/axios.js"></script>
+<body>
+<div id="app">
+  <h3>vue-resource插件</h3>
+  <a href="javascript:" @click="get" class="bth">get</a>
+  <a href="javascript:" @click="post" class="bth">post</a>
+  <a href="javascript:" @click="http" class="bth">http</a>
+  <p>
+    {{msg}}
+  </p>
+</div>
+
+<script>
+  new Vue({
+    el:'#app',
+    data () {
+      return {
+        msg: '',
+      }
+    },
+    mounted () {
+        //设置全局拦截
+      axios.interceptors.request.use(function (config) {
+        console.log('request init')//请求前的拦截，这步执行后才会发出请求
+        return config
+      })
+      axios.interceptors.response.use(function (response) {
+        console.log('response init')//响应时的拦截,这一步执行之后才会接受到响应的数据
+        return response
+      })
+    },
+    methods: {
+      get() {
+        axios.get("../package.json",{
+          params:{userId:888 },
+          headers:{token:'888yyy'}
+        }).then(
+          (res) => {
+            this.msg = res.data
+          }).catch(
+            (err) => {
+              console.log('err init'+err)
+            }
+          )
+      },
+      http () {
+        axios({
+          url: "../package.json",
+          method:'GET',
+          params:{userId: '000'},
+          headers:{token: '000cyh'},
+          timeout:'50',
+          before:function(){
+            console.log('before')
+          }
+        }).then(
+          (res) =>{
+            this.msg = res.data
+          }).catch(
+          (err) => {
+            this.msg = err
+          }
+        )
+      },
+      post () {
+        axios.post("../package.json",
+          {userId: '999'},
+          {headers: {token:'999yyy'}}
+         ).then(
+          (res) => {
+            this.msg = res.data
+          }).catch(
+          (err) => {
+            console.log('err init'+err)
+          }
+        )
+      }
+    }
+  })
+</script>
+</body>
+</html>

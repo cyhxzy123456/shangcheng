@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>aixos</title>
+</head>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script src="../node_modules/vue-resource/dist/vue-resource.js"></script>
+<body>
+<div id="app">
+  <h3>vue-resource插件</h3>
+  <a href="javascript:" @click="get" class="bth">get</a>
+  <a href="javascript:" @click="post" class="bth">post</a>
+  <a href="javascript:" @click="jsonP" class="bth">jsonp</a>
+  <a href="javascript:" @click="http" class="bth">http</a>
+  <p>
+    {{msg}}
+  </p>
+</div>
+
+<script>
+  new Vue({
+    el:'#app',
+    data () {
+        return {
+          msg: '',
+        }
+    },
+    mounted () {
+      Vue.http.interceptors.push(function (request,next) {
+        console.log('request init');
+        next(function (response) {
+          console.log("response init")
+          return response
+        })
+      })
+    },
+    http: {
+      root:"http://localhost:63342/shangcheng/"//配置全局看路径，加上之后就算把vue-resource.html放到一个文件夹中还是可以正常发送ajax，如果不加就不可以正常发送
+    },
+    methods: {
+        get() {
+            this.$http.get("package.json", {
+              params: { userId: 1234},
+              header: {
+                  token: 'abc'
+              }
+            }).then(
+              (res) => {
+                  this.msg = res.data
+              },
+            (err) => {
+                  this.msg = err
+            }
+            )
+        },
+      http () {
+         this.$http({
+           url: "package.json",
+           method:'GET',
+           params:{userId: 'cyh123'},
+           header:{token: '105'},
+           timeout:'50',
+           before:function(){
+               console.log('before')
+           }
+         }).then(
+           (res) =>{
+               this.msg = res.data
+           },
+           (err) => {
+               this.msg = err
+           }
+         )
+      },
+      post () {
+           this.$http.post("package.json",{
+              userId: 'cyh123',
+              header: {access_token: "efg"}
+           }).then(
+             (res) => {
+                 this.msg = res.data
+             },
+             (err) => {
+                 this.msg = err
+             }
+           )
+      },
+      jsonP () {
+        this.$http.jsonp('http://www.strun.club/source/phpJson/urljsonp.php',{
+            params:{ cyh: 'chen'}
+          }
+        )
+          .then(
+            (res) => {
+                this.msg = res.data
+            },
+            (err) => {
+                this.msg = err
+            }
+          )
+      }
+    }
+  })
+</script>
+</body>
+</html>
