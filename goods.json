@@ -1,0 +1,30 @@
+{
+  "status": "0",
+  "msg": "",
+  "result": [
+    {
+      "productId": "100001",
+      "productName":"小米",
+      "productPrice":"2499",
+      "productImg":"1.jpg"
+    },
+    {
+      "productId": "100002",
+      "productName":"OPPO",
+      "productPrice":"2499",
+      "productImg":"2.jpg"
+    },
+    {
+      "productId": "100003",
+      "productName":"耳机",
+      "productPrice":"500",
+      "productImg":"3.jpg"
+    },
+    {
+      "productId": "100004",
+      "productName":"小米",
+      "productPrice":"2499",
+      "productImg":"4.jpg"
+    }
+  ]
+}

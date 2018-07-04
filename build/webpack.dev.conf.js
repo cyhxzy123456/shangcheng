@@ -13,6 +13,7 @@ const portfinder = require('portfinder')
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
+
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
@@ -67,6 +68,39 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     ])
   ]
 })
+
+/*用express方法模拟数据*/
+const express = require ('express')
+const apiServer = express()
+const bodyParser = require('body-parser')
+apiServer.use(bodyParser.urlencoded({ extended: true }))
+apiServer.use(bodyParser.json())
+const apiRouter = express.Router()
+const fs = require('fs')
+apiRouter.route('/:apiName') //接口路径
+  .all(function (req, res) {
+    fs.readFile('./goods.json', 'utf8', function (err, data) {  //读取接口文件
+      if (err) throw err
+      var data = JSON.parse(data)
+      if (data[req.params.apiName]) {
+        res.json(data[req.params.apiName])
+      }
+      else {
+        res.send('no such api name')
+      }
+
+    })
+  })
+apiServer.use('/api', apiRouter);
+apiServer.listen(3000, function (err) {
+  if (err) {
+    console.log(err)
+    return
+  }
+  console.log('Listening at http://localhost:' + 3000 + '\n')
+})
+
+
 
 module.exports = new Promise((resolve, reject) => {
   portfinder.basePort = process.env.PORT || config.dev.port
