@@ -69,36 +69,36 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   ]
 })
 
-/*用express方法模拟数据*/
-const express = require ('express')
-const apiServer = express()
-const bodyParser = require('body-parser')
-apiServer.use(bodyParser.urlencoded({ extended: true }))
-apiServer.use(bodyParser.json())
-const apiRouter = express.Router()
-const fs = require('fs')
-apiRouter.route('/:apiName') //接口路径
-  .all(function (req, res) {
-    fs.readFile('./goods.json', 'utf8', function (err, data) {  //读取接口文件
-      if (err) throw err
-      var data = JSON.parse(data)
-      if (data[req.params.apiName]) {
-        res.json(data[req.params.apiName])
-      }
-      else {
-        res.send('no such api name')
-      }
+/*用express方法模拟数据*/ //只有在模拟假数据的时候需要用这个，当我们已经用node的express框架搭好后台之后就不需要了
+/*const express = require ('express')
+ const apiServer = express()
+ const bodyParser = require('body-parser')
+ apiServer.use(bodyParser.urlencoded({ extended: true }))
+ apiServer.use(bodyParser.json())
+ const apiRouter = express.Router()
+ const fs = require('fs')
+ apiRouter.route('/:apiName') //接口路径
+ .all(function (req, res) {
+ fs.readFile('./goods.json', 'utf8', function (err, data) {  //读取接口文件
+ if (err) throw err
+ var data = JSON.parse(data)
+ if (data[req.params.apiName]) {
+ res.json(data[req.params.apiName])
+ }
+ else {
+ res.send('no such api name')
+ }
 
-    })
-  })
-apiServer.use('/api', apiRouter);
-apiServer.listen(3000, function (err) {
-  if (err) {
-    console.log(err)
-    return
-  }
-  console.log('Listening at http://localhost:' + 3000 + '\n')
-})
+ })
+ })
+ apiServer.use('/api', apiRouter);
+ apiServer.listen(3000, function (err) {
+ if (err) {
+ console.log(err)
+ return
+ }
+ console.log('Listening at http://localhost:' + 3000 + '\n')
+ })*/
 
 
 

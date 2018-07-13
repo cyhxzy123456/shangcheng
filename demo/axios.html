@@ -26,7 +26,7 @@
       }
     },
     mounted () {
-        //设置全局拦截
+      //设置全局拦截
       axios.interceptors.request.use(function (config) {
         console.log('request init')//请求前的拦截，这步执行后才会发出请求
         return config
@@ -38,7 +38,7 @@
     },
     methods: {
       get() {
-        axios.get("../mock/goods.json",{
+        axios.get("../goods.json",{
           params:{userId:888 },
           headers:{token:'888yyy'}
         }).then(

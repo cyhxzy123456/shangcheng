@@ -17,8 +17,11 @@
           <div class="navbar-menu-container">
             <!--<a href="/" class="navbar-link">我的账户</a>-->
             <span class="navbar-link"></span>
-            <a href="javascript:void(0)" class="navbar-link">Login</a>
+            <a href="javascript:void(0)">{{userName}}</a>
+            <a href="javascript:void(0)" class="navbar-link" @click="showLogDialog">登录</a>
             <a href="javascript:void(0)" class="navbar-link">Logout</a>
+            <a href="javascript:void(0)" class="navbar-link">注册</a>
+
             <div class="navbar-cart-container">
               <span class="navbar-cart-count"></span>
               <a class="navbar-link navbar-cart-link" href="/#/cart">
@@ -31,12 +34,35 @@
         </div>
       </div>
     </div>
+    <Dialog :isShow="showLog" @close ="closeMyself('showLog')">
+      <log-form @hasLog="logSuccess"></log-form>
+    </Dialog>
   </div>
 </template>
 <script>
-
+import Dialog from './dialog.vue'
+import LogForm from './logForm.vue'
 export default {
-  name: 'NavHeader'
+  components: {Dialog, LogForm},
+  name: 'NavHeader',
+  data () {
+    return {
+      showLog: false,
+      userName: ''
+    }
+  },
+  methods: {
+    showLogDialog () {
+      this.showLog = true
+    },
+    closeMyself (attr) {
+      this[attr] = false
+    },
+    logSuccess (data) {
+      this.username = data.username
+      this.showLogDialog = false
+    }
+  }
 }
 </script>
 <style scoped>
