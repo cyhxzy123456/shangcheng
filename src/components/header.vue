@@ -18,8 +18,8 @@
             <!--<a href="/" class="navbar-link">我的账户</a>-->
             <span class="navbar-link"></span>
             <a href="javascript:void(0)">{{userName}}</a>
-            <a href="javascript:void(0)" class="navbar-link" @click="showLogDialog">登录</a>
-            <a href="javascript:void(0)" class="navbar-link">Logout</a>
+            <a href="javascript:void(0)" class="navbar-link" @click="showLogDialog" :v-show="userName==''">登录</a>
+            <a href="javascript:void(0)" class="navbar-link" :v-show="!userName==''">Logout</a>
             <a href="javascript:void(0)" class="navbar-link">注册</a>
 
             <div class="navbar-cart-container">
@@ -59,8 +59,10 @@ export default {
       this[attr] = false
     },
     logSuccess (data) {
-      this.username = data.username
-      this.showLogDialog = false
+      this.showLog = false
+      alert('登录成功')
+      // console.log(data)
+      this.userName = data
     }
   }
 }

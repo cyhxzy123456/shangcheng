@@ -53,12 +53,13 @@ router.get('/', function (req, res, next) {
   let goodsModel = Goods.find(params).skip(skip).limit(pageSize)
   goodsModel.sort({'salePrice': sort})
   goodsModel.exec(function (err, doc) {
-      if (err) {
-        res.json({
-          status: '1',
-          msg: err.message
-        })
-      } else {
+    if (err) {
+      res.json({
+        status: '1',
+        msg: err.message
+      })
+    } else {
+      if (doc) {
         res.json({
           status: '0',
           msg: '',
@@ -68,7 +69,8 @@ router.get('/', function (req, res, next) {
           }
         })
       }
-    })
+    }
+  })
 })
 // 加入到购物车
 router.post('/addCart', function (req, res, next) {

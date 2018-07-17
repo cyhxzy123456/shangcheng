@@ -33,44 +33,22 @@
 <script>
 import axios from 'axios'
 export default {
-  name : 'logForm',
+  name: 'logForm',
   data () {
     return {
       usernameModel: '',
-      passwordModel : '',
-      errorText : ''
+      passwordModel: '',
+      errorText: ''
     }
   },
-  methods : {
-    onLogin () {
-      if (!this.userErrors.status || !this.passErrors.status) {
-        this.errorText = '部分验证不合格'
-      } else { // 验证通过
-        this.errorText = '';
-        axios.post('api/users/login', {
-          userName: this.usernameModel,
-          userPwd: this.passwordModel
-        })
-          .then(
-            function(res){
-              this.$emit('hasLog',res.data)
-            }
-          ).catch(
-            function(err){
-              console.log(err)
-            }
-          )
-      }
-    }
-  },
-  computed : {
+  computed: {
     userErrors () {
-      let errorText , status
+      let errorText, status
       if (/@/g.test(this.usernameModel )) {
-        status = false ;
+        status = false
         errorText = '必须有@'
       } else {
-        status = true;
+        status = true
         errorText = ''
       }
       if (!this.userFlag) {
@@ -98,6 +76,30 @@ export default {
       }
       return {
         status, errorText // 最后返回的一定是个对象，这个对象的名字就是userErrors
+      }
+    }
+  },
+  methods: {
+    onLogin () {
+      if (!this.userErrors.status || !this.passErrors.status) {
+        this.errorText = '部分验证不合格'
+      } else { // 验证通过
+        this.errorText = ''
+        axios.get('api/users/login', {
+          params: {
+            userName: this.usernameModel,
+            userPwd: this.passwordModel
+          }
+        })
+          .then(
+            (res) => {
+              this.$emit('hasLog', res.data.result.userName)
+            }
+          ).catch(
+            (err) => {
+              console.log(err)
+            }
+          )
       }
     }
   }

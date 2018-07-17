@@ -89,18 +89,6 @@ export default {
       busy: true
     }
   },
-  mounted () {
-    // 设置全局拦截
-    /* axios.interceptors.request.use(function (config) {
-      console.log('request init') // 请求前的拦截，这步执行后才会发出请求
-      return config
-    })
-    axios.interceptors.response.use(function (response) {
-      console.log('response init') // 响应时的拦截,这一步执行之后才会接受到响应的数据
-      return response
-    }) */
-    this.getGoodsList()
-  },
   methods: {
     getGoodsList (flag) {
       const param = { // 在点击排序时要重新请求数据，我们要向服务器反馈是第几页需要排序
@@ -110,8 +98,7 @@ export default {
         priceLevel: this.priceCheck // 在筛选价格区间的时候把选中的一项传到服务器
       }
       axios.get('/api/goods', {
-        params: param,
-        headers: {token: '888yyy'}
+        params: param
       }).then(
         (response) => {
           /* console.log(res.data.result.list) */
@@ -178,6 +165,18 @@ export default {
         this.getGoodsList(true)
       }, 1000);
     }
+  },
+  mounted () {
+    // 设置全局拦截
+    /* axios.interceptors.request.use(function (config) {
+     console.log('request init') // 请求前的拦截，这步执行后才会发出请求
+     return config
+     })
+     axios.interceptors.response.use(function (response) {
+     console.log('response init') // 响应时的拦截,这一步执行之后才会接受到响应的数据
+     return response
+     }) */
+    this.getGoodsList()
   }
 }
 </script>
